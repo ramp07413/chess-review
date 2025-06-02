@@ -1,19 +1,19 @@
-const puppeteer = require('puppeteer');
+// puppeteerHelper.js
+const chromium = require("chrome-aws-lambda");
 
 async function openChessLink(url) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
-    userDataDir: './chess-profile'
+  const browser = await chromium.puppeteer.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
   });
 
   const page = await browser.newPage();
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.goto(url, { waitUntil: "networkidle2" });
+  console.log("✅ Page opened in headless mode");
 
-  // 3 seconds wait before closing, so page loads
-  await new Promise(resolve => setTimeout(resolve, 3000));
-
+  // Optional: close after some time
+  await new Promise(res => setTimeout(res, 5000));
   await browser.close();
 }
 
