@@ -1,9 +1,23 @@
 const puppeteer = require('puppeteer');
+require("dotenv").config()
 const scarp = async (res)=>{
 // Or import puppeteer from 'puppeteer-core';
 
 // Launch the browser and open a new blank page
-const browser = await puppeteer.launch();
+const browser = await puppeteer.launch({
+    args:[
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+    ],
+    executablePath:
+        process.env.NODE_ENV === "production" ?
+        process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+
+
+});
 const page = await browser.newPage();
 
 // Navigate the page to a URL.
