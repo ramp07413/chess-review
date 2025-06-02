@@ -5,7 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+
+ 
+ 
+  "postinstall": "puppeteer install"
+
+    
   },
   "keywords": ["chess", "puppeteer", "review", "express"],
   "author": "Your Name",
