@@ -1,21 +1,31 @@
-const chromium = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
+const chromium = require('chrome-aws-lambda');
 
-async function openChessLink(url) {
-  const executablePath = await chromium.executablePath || '/usr/bin/chromium-browser';
+async function startBrowser() {
+  let browser;
+  try {
+    console.log("🚀 Opening the browser in headless mode...");
+    
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+      headless: true,
+    });
 
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath,
-    headless: chromium.headless,
-  });
+    const page = await browser.newPage();
 
-  const page = await browser.newPage();
-  await page.goto(url, { waitUntil: 'networkidle2' });
-  console.log("✅ Page opened");
+    await page.setUserAgent(
+      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
+    );
 
-  await browser.close();
+    console.log("✅ Headless browser and page setup complete");
+    return { browser, page };
+
+  } catch (err) {
+    console.error("❌ Could not create a browser instance =>", err);
+    return null;
+  }
 }
 
-module.exports = { openChessLink };
+module.exports = { startBrowser };
