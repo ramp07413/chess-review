@@ -1,23 +1,14 @@
-// server.js
 const express = require('express');
-const { openChessLink } = require('./puppeteerHelper');
+const { openPageWithUserAgent } = require('./puppeteerHelper');
 
 const app = express();
 
-app.get('/open-review', async (req, res) => {
-  const { url } = req.query;
-
-  if (!url) return res.status(400).send("❌ URL is required");
-
-  try {
-    await openChessLink(url);
-    res.send("✅ Review link opened in browser with login");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("❌ Error opening link");
-  }
+app.get('/open', async (req, res) => {
+  const url = req.query.url || 'https://www.chess.com/';
+  await openPageWithUserAgent(url);
+  res.send("✅ Opened page with user agent");
 });
 
 app.listen(4000, () => {
-  console.log("🚀 Server running on http://localhost:4000");
+  console.log("Server running on http://localhost:4000");
 });
