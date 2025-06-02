@@ -4,11 +4,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "postinstall": "echo 'Skipping Chrome install; using chrome-aws-lambda binaries'"
+    "postinstall": "echo 'Puppeteer installed with bundled Chromium'"
   },
   "dependencies": {
     "express": "^5.1.0",
-    "chrome-aws-lambda": "^10.1.0",
-    "puppeteer-core": "^21.3.8"
+    "puppeteer": "^24.10.0"
   }
 }
