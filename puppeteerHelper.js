@@ -1,12 +1,13 @@
-// puppeteerHelper.js
 const chromium = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
 
 async function openChessLink(url) {
+  const executablePath = await chromium.executablePath || '/usr/bin/chromium-browser';
+
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+    executablePath,
     headless: chromium.headless,
   });
 
@@ -17,4 +18,4 @@ async function openChessLink(url) {
   await browser.close();
 }
 
-module.exports = { openChessLink }; // ✅ export as object
+module.exports = { openChessLink };
