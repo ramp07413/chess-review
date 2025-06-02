@@ -1,0 +1,6 @@
+2025/06/02-20:16:06.499 186c82b Reusing MANIFEST /Users/rampareek/Desktop/project/chess/chess-profile/Default/Local Storage/leveldb/MANIFEST-000001
+2025/06/02-20:16:06.502 186c82b Recovering log #6
+2025/06/02-20:16:06.502 186c82b Reusing old log /Users/rampareek/Desktop/project/chess/chess-profile/Default/Local Storage/leveldb/000006.log 
+2025/06/02-20:17:06.519 186c82d Level-0 table #10: started
+2025/06/02-20:17:06.525 186c82d Level-0 table #10: 22096 bytes OK
+2025/06/02-20:17:06.528 186c82d Delete type=0 #6
