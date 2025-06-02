@@ -1,18 +1,37 @@
 FROM node:22
 
-# Switch to root for installing dependencies
-USER root
+# Install necessary dependencies for Chrome
+RUN apt-get update && apt-get install -y \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libdrm2 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libgtk-3-0 \
+    wget \
+    ca-certificates \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy package.json and package-lock.json (if exists)
+# Create app directory
+WORKDIR /app
+
+# Copy package.json and install dependencies
 COPY package*.json ./
+RUN npm install
 
-# Install dependencies
-RUN npm install puppeteer @puppeteer/browsers puppeteer-core && npm ci
-
-# Copy rest of the app code
+# Copy remaining files
 COPY . .
 
-# Switch to non-root user (if configured)
-# USER $PPTRUSER_UID
+# Set environment variable if needed
+ENV PUPPETEER_EXECUTABLE_PATH="/root/.cache/puppeteer/chrome/linux-*/chrome"
 
+# Run the app
 CMD ["node", "server.js"]
