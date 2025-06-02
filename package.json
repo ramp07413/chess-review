@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "echo 'Skipping Chrome install; using chrome-aws-lambda binaries'"
   },
   "dependencies": {
     "express": "^5.1.0",
