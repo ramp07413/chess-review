@@ -12,7 +12,7 @@ async function openChessLink(url) {
   page.on('pageerror', err => console.log('PAGE ERROR:', err));
 
   try {
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
     await page.screenshot({ path: 'debug.png', fullPage: true });
     console.log("✅ Page opened and screenshot taken: " + url);
   } catch (error) {
