@@ -1,49 +1,30 @@
-const puppeteer = require('puppeteer');
-require("dotenv").config();
+// const puppeteer = require('puppeteer');
+// const path = require('path');
 
-const scarp = async (res) => {
-  try {
-    const browser = await puppeteer.launch({
-      args:[
-          "--disable-setuid-sandbox",
-          "--no-sandbox",
-          "--single-process",
-          "--no-zygote"
-      ],
-      executablePath:
-          process.env.NODE_ENV === "production" ?
-          process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
+// async function openChessLink(url) {
+//   const userDataDir = path.join(__dirname, 'chess-profile'); // Session & cookies saved here
 
-    const page = await browser.newPage();
+//   const browser = await puppeteer.launch({
+//     headless: false, // 🔍 head mode
+//     userDataDir,
+//     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+//     // ✅ Change this path as per your OS
+//     executablePath: getChromePath()
+//   });
 
-    await page.goto('https://developer.chrome.com/');
+//   const page = await browser.newPage();
+//   await page.goto(url, { waitUntil: 'networkidle2', timeout: 0 });
 
-    await page.setViewport({width: 1080, height: 1024});
+//   console.log("✅ Page opened: " + url);
+//   await page.waitForTimeout(60000); // Wait 60 seconds to login manually (or view)
+//   await browser.close();
+// }
 
-    // Puppeteer style to type in input field
-    await page.type('input[aria-label="Search"]', 'automate beyond recorder');
+// function getChromePath() {
+//   const os = require('os').platform();
+//   if (os === 'darwin') return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+//   if (os === 'win32') return 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+//   return '/usr/bin/google-chrome'; // Linux
+// }
 
-    // Wait for and click the first result link
-    await page.waitForSelector('.devsite-result-item-link');
-    await page.click('.devsite-result-item-link');
-
-    // Wait for the selector that contains the full title text
-    await page.waitForSelector('h1'); // or more specific selector if needed
-
-    // Get the text content of the element
-    const fullTitle = await page.$eval('h1', el => el.textContent);
-
-    console.log('The title of this blog post is "%s".', fullTitle);
-
-    res.send(fullTitle);
-
-    await browser.close();
-  } catch (err) {
-    console.error('Error in scraping:', err);
-    res.status(500).send('Error in scraping');
-  }
-};
-
-module.exports = { scarp };
+// module.exports = { openChessLink };
