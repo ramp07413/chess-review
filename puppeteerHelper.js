@@ -10,7 +10,7 @@ async function openChessLink(url) {
   });
 
   const page = await browser.newPage();
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.goto(url, { waitUntil: 'networkidle2', timeout:0 });
 
   console.log("✅ Page opened: " + url);
 
