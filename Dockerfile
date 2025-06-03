@@ -1,7 +1,9 @@
-FROM node:22
+FROM node:22-slim
 
-# Install necessary dependencies for Chrome
+# Install Chromium dependencies
 RUN apt-get update && apt-get install -y \
+    wget \
+    ca-certificates \
     fonts-liberation \
     libnss3 \
     libxss1 \
@@ -16,22 +18,16 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     libgbm1 \
     libgtk-3-0 \
-    wget \
-    ca-certificates \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    --no-install-recommends \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy remaining files
 COPY . .
 
-# Set environment variable if needed
-ENV PUPPETEER_EXECUTABLE_PATH="/root/.cache/puppeteer/chrome/linux-*/chrome"
+EXPOSE 4000
 
-# Run the app
 CMD ["node", "server.js"]
