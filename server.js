@@ -1,9 +1,8 @@
-// server.js
 const express = require('express');
-// const { openChessLink } = require('./puppeteerHelper');
-const { scarp } = require('./scarp')
+const { openChessLink } = require('./puppeteerHelper');
 
 const app = express();
+const PORT = process.env.PORT || 4000; // ✅ Define PORT from env
 
 app.get('/open-review', async (req, res) => {
   const { url } = req.query;
@@ -11,14 +10,14 @@ app.get('/open-review', async (req, res) => {
   if (!url) return res.status(400).send("❌ URL is required");
 
   try {
-    await scarp(url);
+    await openChessLink(url);
     res.send("✅ Review link opened in browser with login");
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error:", err);
     res.status(500).send("❌ Error opening link");
   }
 });
 
-app.listen(4000, () => {
-  console.log("🚀 Server running on http://localhost:4000");
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
